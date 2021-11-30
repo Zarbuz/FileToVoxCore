@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using FileToVoxCore.Drawing;
 using FileToVoxCore.Extensions;
 using FileToVoxCore.Schematics.Tools;
 using FileToVoxCore.Utils;
