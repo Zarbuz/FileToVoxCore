@@ -3,7 +3,7 @@ using FileToVoxCore.Drawing;
 
 namespace FileToVoxCore.Extensions
 {
-	public static class FctExtensions
+	internal static class FctExtensions
     {
         public static Color UIntToColor(this uint color)
         {
@@ -19,8 +19,5 @@ namespace FileToVoxCore.Extensions
 	        return (uint)((color.A << 24) | (color.R << 16) |
 	                      (color.G << 8) | (color.B << 0));
         }
-
     }
-
-	
 }
