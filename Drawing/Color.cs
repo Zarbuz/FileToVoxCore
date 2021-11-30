@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace FileToVoxCore.Drawing
 {
-	public readonly struct Color : IEquatable<Color>
+	[Serializable]
+    public readonly struct Color : IEquatable<Color>
     {
         public static readonly Color Empty;
 

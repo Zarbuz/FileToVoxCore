@@ -5,9 +5,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>FileToVoxCore</AssemblyName>
     <RootNamespace>FileToVoxCore</RootNamespace>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Authors>Zarbuz</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/Zarbuz/FileToVoxCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Zarbuz/FileToVoxCore</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
