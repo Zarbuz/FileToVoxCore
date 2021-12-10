@@ -23,11 +23,9 @@ namespace FileToVoxCore.Vox
 		private Rotation mRotation = Rotation._PZ_PX_P;
 		private List<Region> mFirstBlockInEachRegion;
 		private List<Color> mPalette;
-		private int mChunkSize;
 
-		public bool WriteModel(int chunkSize, string absolutePath, List<Color> palette, Schematic schematic, Rotation rotation = Rotation._PZ_PX_P)
+		public bool WriteModel(string absolutePath, List<Color> palette, Schematic schematic, Rotation rotation = Rotation._PZ_PX_P)
 		{
-			mChunkSize = chunkSize;
 			mTotalBlockCount = mCountRegionNonEmpty = mCountBlocks = 0;
 			mSchematic = schematic;
 			mPalette = palette;
@@ -175,9 +173,9 @@ namespace FileToVoxCore.Vox
 			writer.Write(12); //Chunk Size (constant)
 			writer.Write(0); //Child Chunk Size (constant)
 
-			writer.Write(mChunkSize); //Width
-			writer.Write(mChunkSize); //Height
-			writer.Write(mChunkSize); //Depth
+			writer.Write(Schematic.CHUNK_SIZE); //Width
+			writer.Write(Schematic.CHUNK_SIZE); //Height
+			writer.Write(Schematic.CHUNK_SIZE); //Depth
 		}
 
 		/// <summary>
@@ -200,9 +198,9 @@ namespace FileToVoxCore.Vox
 
 			foreach (Voxel block in blocks)
 			{
-				writer.Write((byte)(block.X % mChunkSize));
-				writer.Write((byte)(block.Y % mChunkSize));
-				writer.Write((byte)(block.Z % mChunkSize));
+				writer.Write((byte)(block.X % Schematic.CHUNK_SIZE));
+				writer.Write((byte)(block.Y % Schematic.CHUNK_SIZE));
+				writer.Write((byte)(block.Z % Schematic.CHUNK_SIZE));
 				int paletteIndex = mPalette?.IndexOf(block.Color.UIntToColor()) - 1 ?? mSchematic.GetPaletteIndex(block.Color);
 				if (paletteIndex != -1)
 				{
