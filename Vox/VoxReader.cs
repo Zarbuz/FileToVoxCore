@@ -13,13 +13,15 @@ namespace FileToVoxCore.Vox
         private int mVoxelCountLastXyziChunk = 0;
         protected string LogOutputFile;
         private bool mWriteLog;
+        private bool mUnityVersion;
 
         
-        public VoxModel LoadModel(string absolutePath, bool writeLog = false, bool debug = false)
+        public VoxModel LoadModel(string absolutePath, bool writeLog = false, bool debug = false, bool unityVersion = false)
         {
             VoxModel output = new VoxModel();
             var name = Path.GetFileNameWithoutExtension(absolutePath);
             mVoxelCountLastXyziChunk = 0;
+            mUnityVersion = unityVersion;
             LogOutputFile = name + "-" + DateTime.Now.ToString("y-MM-d_HH.m.s") + ".txt";
             mWriteLog = writeLog;
             ChildCount = 0;
@@ -159,25 +161,45 @@ namespace FileToVoxCore.Vox
                     case MAIN:
                         break;
                     case SIZE:
-                        int w = chunkReader.ReadInt32();
-                        int h = chunkReader.ReadInt32();
-                        int d = chunkReader.ReadInt32();
+                        int xSize = chunkReader.ReadInt32();
+                        int ySize = chunkReader.ReadInt32();
+                        int zSize = chunkReader.ReadInt32();
                         if (ChildCount >= output.VoxelFrames.Count)
                             output.VoxelFrames.Add(new VoxelData());
-                        output.VoxelFrames[ChildCount].Resize(w, h, d);
+
+                        if (mUnityVersion)
+                        {
+                            //Swap XZ
+                            output.VoxelFrames[ChildCount].Resize(xSize, zSize, ySize);
+                        }
+                        else
+                        {
+                            output.VoxelFrames[ChildCount].Resize(xSize, ySize, zSize);
+                        }
                         ChildCount++;
                         break;
                     case XYZI:
                         mVoxelCountLastXyziChunk = chunkReader.ReadInt32();
-                        var frame = output.VoxelFrames[ChildCount - 1];
-                        byte x, y, z, color;
+                        VoxelData frame = output.VoxelFrames[ChildCount - 1];
                         for (int i = 0; i < mVoxelCountLastXyziChunk; i++)
                         {
-                            x = chunkReader.ReadByte();
-                            y = chunkReader.ReadByte();
-                            z = chunkReader.ReadByte();
-                            color = chunkReader.ReadByte();
-                            frame.Set(x, y, z, color);
+                            byte color;
+                            if (mUnityVersion)
+                            {
+                                int x = frame.VoxelsWide - 1 - chunkReader.ReadByte(); //invert
+                                int z = frame.VoxelsDeep - 1 - chunkReader.ReadByte(); //swapYZ //invert
+                                int y = chunkReader.ReadByte();
+                                color = chunkReader.ReadByte();
+                                frame.Set(x, y, z, color);
+                            }
+                            else
+                            {
+                                byte x = chunkReader.ReadByte();
+                                byte y = chunkReader.ReadByte();
+                                byte z = chunkReader.ReadByte();
+                                color = chunkReader.ReadByte();
+                                frame.Set(x, y, z, color);
+                            }
                             output.ColorUsed.Add(color);
                         }
                         break;
