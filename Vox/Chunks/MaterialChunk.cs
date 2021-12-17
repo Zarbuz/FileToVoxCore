@@ -67,6 +67,30 @@ namespace FileToVoxCore.Vox.Chunks
             }
         }
 
+        public float Ior
+        {
+            get
+            {
+                float result = 1f;
+                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_ior");
+                if (item.Key != null)
+                    float.TryParse(item.Value, out result);
+                return result;
+            }
+        }
+
+        public float Att
+        {
+            get
+            {
+                float result = 1f;
+                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_att");
+                if (item.Key != null)
+                    float.TryParse(item.Value, out result);
+                return result;
+            }
+        }
+
         public float Smoothness => 1 - Rough;
         public float Metallic => Type == MaterialType._metal ? Weight : 0;
         public float Emission => Type == MaterialType._emit ? Weight * Flux : 0;
