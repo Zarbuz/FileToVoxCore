@@ -22,7 +22,7 @@ namespace FileToVoxCore.Vox
 
     public enum MaterialType
     {
-        _diffuse, _metal, _glass, _emit
+        _diffuse, _metal, _glass, _emit, _cloud
     }
 
     public class DICT
