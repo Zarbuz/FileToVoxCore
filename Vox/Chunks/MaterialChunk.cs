@@ -94,7 +94,7 @@ namespace FileToVoxCore.Vox.Chunks
         public float Smoothness => 1 - Rough;
         public float Metallic => Type == MaterialType._metal ? Weight : 0;
         public float Emission => Type == MaterialType._emit ? Weight * Flux : 0;
-        public float Transparency => (Type == MaterialType._glass || Type == MaterialType._cloud) ? Weight : 0;
+        public float Transparency => (Type == MaterialType._glass || Type == MaterialType._media) ? Weight : 0;
         public float Alpha => 1 - Transparency;
     }
 }
