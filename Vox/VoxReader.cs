@@ -14,9 +14,9 @@ namespace FileToVoxCore.Vox
         protected string LogOutputFile;
         private bool mWriteLog;
         private bool mUnityVersion;
-
+        private bool moffsetPalette;
         
-        public VoxModel LoadModel(string absolutePath, bool writeLog = false, bool debug = false, bool unityVersion = false)
+        public VoxModel LoadModel(string absolutePath, bool writeLog = false, bool debug = false, bool unityVersion = false, bool offsetPalette = true)
         {
             VoxModel output = new VoxModel();
             var name = Path.GetFileNameWithoutExtension(absolutePath);
@@ -24,6 +24,7 @@ namespace FileToVoxCore.Vox
             mUnityVersion = unityVersion;
             LogOutputFile = name + "-" + DateTime.Now.ToString("y-MM-d_HH.m.s") + ".txt";
             mWriteLog = writeLog;
+            moffsetPalette = offsetPalette;
             ChildCount = 0;
             ChunkCount = 0;
             using (var reader = new BinaryReader(new MemoryStream(File.ReadAllBytes(absolutePath))))
@@ -134,7 +135,9 @@ namespace FileToVoxCore.Vox
         private Color[] LoadPalette(BinaryReader reader)
         {
             var result = new Color[256];
-            for (int i = 0; i < 255; i++)
+            int iStart = moffsetPalette ? 0 : 1;
+            int iMax = moffsetPalette ? 255 : 256;
+            for (int i = iStart; i < iMax; i++)
             {
                 byte r = reader.ReadByte();
                 byte g = reader.ReadByte();

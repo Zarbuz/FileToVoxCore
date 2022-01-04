@@ -2,3 +2,4 @@ obj/
 .vs/FileToVoxCore/v16/.suo
 bin/
 .vs/
+Properties/PublishProfiles/FileToVoxCorePortable.pubxml.user
