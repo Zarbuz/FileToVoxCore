@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FileToVoxCore.Schematics.Tools;
 
 namespace FileToVoxCore.Vox
@@ -6,7 +7,8 @@ namespace FileToVoxCore.Vox
     public class VoxelData
     {
         private int mVoxelWide, mVoxelsTall, mVoxelsDeep;
-        private byte[] mColors;
+        //private byte[] mColors;
+        private Dictionary<int, byte> mColors;
 
         /// <summary>
         /// Creates a voxeldata with provided dimensions
@@ -25,10 +27,11 @@ namespace FileToVoxCore.Vox
 
         public void Resize(int voxelsWide, int voxelsTall, int voxelsDeep)
         {
-            mVoxelWide = voxelsWide;
-            mVoxelsTall = voxelsTall;
-            mVoxelsDeep = voxelsDeep;
-            mColors = new byte[mVoxelWide * mVoxelsTall * mVoxelsDeep];
+            mVoxelWide = voxelsWide + 1;
+            mVoxelsTall = voxelsTall + 1;
+            mVoxelsDeep = voxelsDeep + 1;
+            mColors = new Dictionary<int, byte>();
+            //mColors = new byte[mVoxelWide * mVoxelsTall * mVoxelsDeep];
         }
 
         /// <summary>
@@ -40,6 +43,14 @@ namespace FileToVoxCore.Vox
         /// <returns></returns>
         public int GetGridPos(int x, int y, int z)
             => (mVoxelWide * mVoxelsTall) * z + (mVoxelWide * y) + x;
+
+        public void Get3DPos(int idx, out int x, out int y, out int z)
+        {
+	        z = idx / (mVoxelWide * mVoxelsTall);
+	        idx -= (z * mVoxelWide * mVoxelsTall);
+	        y = idx / mVoxelWide;
+	        x = idx % mVoxelWide;
+        }
 
         /// <summary>
         /// Set a color index from voxel coordinates
@@ -93,13 +104,13 @@ namespace FileToVoxCore.Vox
         /// </summary>
         public int VoxelsDeep => mVoxelsDeep;
 
-        public byte[] Colors => mColors;
+        public Dictionary<int, byte> Colors => mColors;
 
-        public bool Contains(int x, int y, int z)
-            => x >= 0 && y >= 0 && z >= 0 && x < mVoxelWide && y < mVoxelsTall && z < mVoxelsDeep;
+        public bool ContainsKey(int x, int y, int z)
+            => mColors.ContainsKey(GetGridPos(x, y, z));
 
         public byte GetSafe(int x, int y, int z)
-            => Contains(x, y, z) ? mColors[GetGridPos(x, y, z)] : (byte)0;
+            => ContainsKey(x, y, z) ? mColors[GetGridPos(x, y, z)] : (byte)0;
 
         public Vector3 GetVolumeSize()
 	        => new Vector3(VoxelsWide, VoxelsTall, VoxelsDeep);

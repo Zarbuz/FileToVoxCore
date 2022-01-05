@@ -193,7 +193,10 @@ namespace FileToVoxCore.Vox
                                 int z = frame.VoxelsDeep - 1 - chunkReader.ReadByte(); //swapYZ //invert
                                 int y = chunkReader.ReadByte();
                                 color = chunkReader.ReadByte();
-                                frame.Set(x, y, z, color);
+                                if (color > 0)
+                                {
+	                                frame.Set(x, y, z, color);
+                                }
                             }
                             else
                             {
@@ -201,7 +204,10 @@ namespace FileToVoxCore.Vox
                                 byte y = chunkReader.ReadByte();
                                 byte z = chunkReader.ReadByte();
                                 color = chunkReader.ReadByte();
-                                frame.Set(x, y, z, color);
+                                if (color > 0)
+                                {
+	                                frame.Set(x, y, z, color);
+                                }
                             }
                             output.ColorUsed.Add(color);
                         }
