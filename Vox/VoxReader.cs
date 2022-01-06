@@ -182,35 +182,7 @@ namespace FileToVoxCore.Vox
                         ChildCount++;
                         break;
                     case XYZI:
-                        mVoxelCountLastXyziChunk = chunkReader.ReadInt32();
-                        VoxelData frame = output.VoxelFrames[ChildCount - 1];
-                        for (int i = 0; i < mVoxelCountLastXyziChunk; i++)
-                        {
-                            byte color;
-                            if (mUnityVersion)
-                            {
-                                int x = frame.VoxelsWide - 1 - chunkReader.ReadByte(); //invert
-                                int z = frame.VoxelsDeep - 1 - chunkReader.ReadByte(); //swapYZ //invert
-                                int y = chunkReader.ReadByte();
-                                color = chunkReader.ReadByte();
-                                if (color > 0)
-                                {
-	                                frame.Set(x, y, z, color);
-                                }
-                            }
-                            else
-                            {
-                                byte x = chunkReader.ReadByte();
-                                byte y = chunkReader.ReadByte();
-                                byte z = chunkReader.ReadByte();
-                                color = chunkReader.ReadByte();
-                                if (color > 0)
-                                {
-	                                frame.Set(x, y, z, color);
-                                }
-                            }
-                            output.ColorUsed.Add(color);
-                        }
+                        ReadXYZINodeChunk(chunkReader, output);
                         break;
                     case RGBA:
                         output.Palette = LoadPalette(chunkReader);
@@ -462,6 +434,39 @@ namespace FileToVoxCore.Vox
                 FrameAttributes = ReadArray(chunkReader, r => new DICT(ReadDICT(r)))
             };
             return transformNodeChunk;
+        }
+
+        protected virtual void ReadXYZINodeChunk(BinaryReader chunkReader, VoxModel output)
+        {
+	        mVoxelCountLastXyziChunk = chunkReader.ReadInt32();
+	        VoxelData frame = output.VoxelFrames[ChildCount - 1];
+	        for (int i = 0; i < mVoxelCountLastXyziChunk; i++)
+	        {
+		        byte color;
+		        if (mUnityVersion)
+		        {
+			        int x = frame.VoxelsWide - 1 - chunkReader.ReadByte(); //invert
+			        int z = frame.VoxelsDeep - 1 - chunkReader.ReadByte(); //swapYZ //invert
+			        int y = chunkReader.ReadByte();
+			        color = chunkReader.ReadByte();
+			        if (color > 0)
+			        {
+				        frame.Set(x, y, z, color);
+			        }
+		        }
+		        else
+		        {
+			        byte x = chunkReader.ReadByte();
+			        byte y = chunkReader.ReadByte();
+			        byte z = chunkReader.ReadByte();
+			        color = chunkReader.ReadByte();
+			        if (color > 0)
+			        {
+				        frame.Set(x, y, z, color);
+			        }
+		        }
+		        output.ColorUsed.Add(color);
+	        }
         }
     }
 }
