@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FileToVoxCore.Vox.Chunks
 {
-    public class MaterialChunk
+    public class MaterialChunk : IEquatable<MaterialChunk>
     {
         public int Id;
         public KeyValue[] Properties;
@@ -96,5 +96,30 @@ namespace FileToVoxCore.Vox.Chunks
         public float Emission => Type == MaterialType._emit ? Weight * Flux : 0;
         public float Transparency => (Type == MaterialType._glass || Type == MaterialType._media) ? Weight : 0;
         public float Alpha => 1 - Transparency;
+
+        public override string ToString()
+        {
+	        return $"{Type} {Weight}";
+        }
+
+        public bool Equals(MaterialChunk other)
+        {
+	        if (ReferenceEquals(null, other)) return false;
+	        if (ReferenceEquals(this, other)) return true;
+	        return Properties.SequenceEqual(other.Properties);
+        }
+
+        public override bool Equals(object obj)
+        {
+	        if (ReferenceEquals(null, obj)) return false;
+	        if (ReferenceEquals(this, obj)) return true;
+	        if (obj.GetType() != this.GetType()) return false;
+	        return Equals((MaterialChunk)obj);
+        }
+
+        public override int GetHashCode()
+        {
+	        return (Properties != null ? Properties.GetHashCode() : 0);
+        }
     }
 }
