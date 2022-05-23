@@ -20,18 +20,6 @@ namespace FileToVoxCore.Vox.Chunks
             }
         }
 
-        public float Weight
-        {
-            get
-            {
-                float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_weight");
-                if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
-            }
-        }
-
         public float Rough
         {
             get
@@ -44,17 +32,7 @@ namespace FileToVoxCore.Vox.Chunks
             }
         }
 
-        public float Spec
-        {
-            get
-            {
-                float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_spec");
-                if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
-            }
-        }
+       
         public float Flux
         {
             get
@@ -91,15 +69,60 @@ namespace FileToVoxCore.Vox.Chunks
             }
         }
 
-        public float Smoothness => 1 - Rough;
-        public float Metallic => Type == MaterialType._metal ? Weight : 0;
-        public float Emission => Type == MaterialType._emit ? Weight * Flux : 0;
-        public float Transparency => (Type == MaterialType._glass || Type == MaterialType._media) ? Weight : 0;
-        public float Alpha => 1 - Transparency;
+        public float Alpha
+        {
+	        get
+	        {
+		        float result = 1f;
+		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_alpha");
+		        if (item.Key != null)
+			        float.TryParse(item.Value, out result);
+		        return result;
+	        }
+        }
+
+        public float Metal
+        {
+	        get
+	        {
+		        float result = 1f;
+		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_metal");
+		        if (item.Key != null)
+			        float.TryParse(item.Value, out result);
+		        return result;
+	        }
+		}
+
+        public float Specular
+        {
+	        get
+	        {
+		        float result = 1f;
+		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_sp");
+		        if (item.Key != null)
+			        float.TryParse(item.Value, out result);
+		        return result;
+	        }
+		}
+
+        public float Emit
+        {
+	        get
+	        {
+		        float result = 1f;
+		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_emit");
+		        if (item.Key != null)
+			        float.TryParse(item.Value, out result);
+		        return result;
+	        }
+        }
+
+		public float Smoothness => 1 - Rough;
+        public float Emission => Type == MaterialType._emit ? Emit * Flux : 0;
 
         public override string ToString()
         {
-	        return $"{Type} {Weight}";
+	        return $"{Type}";
         }
 
         public bool Equals(MaterialChunk other)

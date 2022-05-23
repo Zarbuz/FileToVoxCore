@@ -282,11 +282,10 @@ namespace FileToVoxCore.Vox
 						writer.WriteLine("--> ALPHA: " + material.Alpha.ToString("F1"));
 						writer.WriteLine("--> EMISSION: " + material.Emission.ToString("F1"));
 						writer.WriteLine("--> FLUX: " + material.Flux.ToString("F1"));
-						writer.WriteLine("--> METALLIC: " + material.Metallic.ToString("F1"));
+						writer.WriteLine("--> METALLIC: " + material.Metal.ToString("F1"));
 						writer.WriteLine("--> ROUGH: " + material.Rough.ToString("F1"));
 						writer.WriteLine("--> SMOOTHNESS: " + material.Smoothness.ToString("F1"));
-						writer.WriteLine("--> SPEC: " + material.Spec.ToString("F1"));
-						writer.WriteLine("--> WEIGHT: " + material.Weight.ToString("F1"));
+						writer.WriteLine("--> SPEC: " + material.Specular.ToString("F1"));
 						DisplayAttributes(material.Properties, writer);
 						break;
 					case IMAP:
