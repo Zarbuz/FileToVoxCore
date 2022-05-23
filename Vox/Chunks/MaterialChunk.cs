@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace FileToVoxCore.Vox.Chunks
@@ -27,8 +28,9 @@ namespace FileToVoxCore.Vox.Chunks
                 float result = 1f;
                 KeyValue item = Properties.FirstOrDefault(i => i.Key == "_rough");
                 if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
+	                float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+
+				return result;
             }
         }
 
@@ -40,8 +42,8 @@ namespace FileToVoxCore.Vox.Chunks
                 float result = 1f;
                 KeyValue item = Properties.FirstOrDefault(i => i.Key == "_flux");
                 if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
+					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
             }
         }
 
@@ -52,8 +54,8 @@ namespace FileToVoxCore.Vox.Chunks
                 float result = 1f;
                 KeyValue item = Properties.FirstOrDefault(i => i.Key == "_ior");
                 if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
+	                float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
             }
         }
 
@@ -64,8 +66,8 @@ namespace FileToVoxCore.Vox.Chunks
                 float result = 1f;
                 KeyValue item = Properties.FirstOrDefault(i => i.Key == "_att");
                 if (item.Key != null)
-                    float.TryParse(item.Value, out result);
-                return result;
+					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
             }
         }
 
@@ -76,8 +78,8 @@ namespace FileToVoxCore.Vox.Chunks
 		        float result = 1f;
 		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_alpha");
 		        if (item.Key != null)
-			        float.TryParse(item.Value, out result);
-		        return result;
+			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
 	        }
         }
 
@@ -88,8 +90,8 @@ namespace FileToVoxCore.Vox.Chunks
 		        float result = 1f;
 		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_metal");
 		        if (item.Key != null)
-			        float.TryParse(item.Value, out result);
-		        return result;
+					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
 	        }
 		}
 
@@ -100,8 +102,8 @@ namespace FileToVoxCore.Vox.Chunks
 		        float result = 1f;
 		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_sp");
 		        if (item.Key != null)
-			        float.TryParse(item.Value, out result);
-		        return result;
+			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
 	        }
 		}
 
@@ -112,8 +114,8 @@ namespace FileToVoxCore.Vox.Chunks
 		        float result = 1f;
 		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_emit");
 		        if (item.Key != null)
-			        float.TryParse(item.Value, out result);
-		        return result;
+			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				return result;
 	        }
         }
 
