@@ -22,14 +22,14 @@ namespace FileToVoxCore.Vox
 
     public enum MaterialType
     {
-        _diffuse, _metal, _glass, _emit, _media
+        _diffuse, _metal, _glass, _emit, _media, _blend, _plastic
     }
 
     public class DICT
     { // DICT
-        public KeyValue[] items;
+        public Dictionary<string, string> items;
 
-        public DICT(KeyValue[] items)
+        public DICT(Dictionary<string, string> items)
         {
             this.items = items;
         }

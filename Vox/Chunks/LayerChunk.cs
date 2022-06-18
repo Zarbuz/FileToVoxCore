@@ -1,27 +1,35 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace FileToVoxCore.Vox.Chunks
 {
-    public class LayerChunk
+	public class LayerChunk
     { // LAYR: Layer Chunk
         public int Id;
-        public KeyValue[] Attributes;
+        public Dictionary<string, string> Attributes;
         public int Unknown;
 
         public string Name
         {
             get
             {
-                var item = Attributes.FirstOrDefault(i => i.Key == "_name");
-                return item.Key != null ? item.Value : string.Empty;
+				if (Attributes.TryGetValue("_name", out string name))
+				{
+					return name;
+				}
+
+				return string.Empty;
             }
         }
         public bool Hidden
         {
             get
             {
-                var item = Attributes.FirstOrDefault(i => i.Key == "_hidden");
-                return item.Key != null ? item.Value != "0" : false;
+				if (Attributes.TryGetValue("_hidden", out string value))
+				{
+					return value != "0";
+				}
+
+				return false;
             }
         }
     }

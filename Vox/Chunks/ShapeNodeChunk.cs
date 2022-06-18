@@ -1,9 +1,11 @@
-﻿namespace FileToVoxCore.Vox.Chunks
+﻿using System.Collections.Generic;
+
+namespace FileToVoxCore.Vox.Chunks
 {
     public class ShapeModel
     {
         public int ModelId;
-        public KeyValue[] Attributes; // reserved
+        public Dictionary<string, string> Attributes;
     }
 
     public class ShapeNodeChunk : NodeChunk

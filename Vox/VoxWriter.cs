@@ -334,52 +334,29 @@ namespace FileToVoxCore.Vox
 		{
 			int byteWritten = 0;
 			writer.Write(Encoding.UTF8.GetBytes(MATL));
-			KeyValue[] materialProperties = new KeyValue[12];
-			materialProperties[0].Key = "_type";
-			materialProperties[0].Value = "_diffuse";
-
-			materialProperties[1].Key = "_weight";
-			materialProperties[1].Value = "1";
-
-			materialProperties[2].Key = "_rough";
-			materialProperties[2].Value = "0.1";
-
-			materialProperties[3].Key = "_spec";
-			materialProperties[3].Value = "0.5";
-
-			materialProperties[4].Key = "_spec_p";
-			materialProperties[4].Value = "0.5";
-
-			materialProperties[5].Key = "_ior";
-			materialProperties[5].Value = "0.3";
-
-			materialProperties[6].Key = "_att";
-			materialProperties[6].Value = "0";
-
-			materialProperties[7].Key = "_g0";
-			materialProperties[7].Value = "-0.5";
-
-			materialProperties[8].Key = "_g1";
-			materialProperties[8].Value = "0.8";
-
-			materialProperties[9].Key = "_gw";
-			materialProperties[9].Value = "0.7";
-
-			materialProperties[10].Key = "_flux";
-			materialProperties[10].Value = "0";
-
-			materialProperties[11].Key = "_ldr";
-			materialProperties[11].Value = "0";
+			Dictionary<string, string> materialProperties = new Dictionary<string, string>();
+			materialProperties.Add("_type", "_diffuse");
+			materialProperties.Add("_weight", "1");
+			materialProperties.Add("_rough", "0.1");
+			materialProperties.Add("_spec", "0.5");
+			materialProperties.Add("_spec_p", "0.5");
+			materialProperties.Add("_ior", "0.3");
+			materialProperties.Add("_att", "0");
+			materialProperties.Add("_g0", "-0.5");
+			materialProperties.Add("_g1", "0.8");
+			materialProperties.Add("_gw", "0.7");
+			materialProperties.Add("_flux", "0");
+			materialProperties.Add("_ldr", "0");
 
 			writer.Write(GetMaterialPropertiesSize(materialProperties) + 8);
 			writer.Write(0); //Child Chunk Size (constant)
 
 			writer.Write(index); //Id
-			writer.Write(materialProperties.Length); //ReadDICT size
+			writer.Write(materialProperties.Count); //ReadDICT size
 
 			byteWritten += Encoding.UTF8.GetByteCount(MATL) + 16;
 
-			foreach (KeyValue keyValue in materialProperties)
+			foreach (KeyValuePair<string, string> keyValue in materialProperties)
 			{
 				writer.Write(Encoding.UTF8.GetByteCount(keyValue.Key));
 				writer.Write(Encoding.UTF8.GetBytes(keyValue.Key));
@@ -392,7 +369,7 @@ namespace FileToVoxCore.Vox
 			return byteWritten;
 		}
 
-		private int GetMaterialPropertiesSize(KeyValue[] properties)
+		private int GetMaterialPropertiesSize(Dictionary<string, string> properties)
 		{
 			return properties.Sum(keyValue => 8 + Encoding.UTF8.GetByteCount(keyValue.Key) + Encoding.UTF8.GetByteCount(keyValue.Value));
 		}

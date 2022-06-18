@@ -1,7 +1,9 @@
-﻿namespace FileToVoxCore.Vox.Chunks
+﻿using System.Collections.Generic;
+
+namespace FileToVoxCore.Vox.Chunks
 {
     public class RendererSettingChunk
     { // rOBJ: Renderer Setting Chunk (undocumented)
-        public KeyValue[] Attributes;
+        public Dictionary<string, string> Attributes;
     }
 }

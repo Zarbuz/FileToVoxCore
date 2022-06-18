@@ -304,9 +304,9 @@ namespace FileToVoxCore.Vox
 			}
 		}
 
-		protected void DisplayAttributes(KeyValue[] Attributes, StreamWriter writer)
+		protected void DisplayAttributes(Dictionary<string, string> attributes, StreamWriter writer)
 		{
-			Attributes.ToList().ForEach(t => writer.WriteLine("--> ATTRIBUTE: Key=" + t.Key + " Value=" + t.Value));
+			attributes.ToList().ForEach(t => writer.WriteLine("--> ATTRIBUTE: Key=" + t.Key + " Value=" + t.Value));
 		}
 
 		protected void DisplayFrameAttributes(DICT[] FrameAttributes, StreamWriter writer)
@@ -341,15 +341,18 @@ namespace FileToVoxCore.Vox
 				.Select(i => itemReader(reader)).ToArray();
 		}
 
-		protected static KeyValue[] ReadDICT(BinaryReader reader)
+		protected static Dictionary<string, string> ReadDICT(BinaryReader reader)
 		{
+			Dictionary<string, string> result = new Dictionary<string, string>();
 			int size = reader.ReadInt32();
-			return Enumerable.Range(0, size)
-				.Select(i => new KeyValue
-				{
-					Key = ReadSTRING(reader),
-					Value = ReadSTRING(reader),
-				}).ToArray();
+			for (int i = 0; i < size; i++)
+			{
+				string key = ReadSTRING(reader);
+				string value = ReadSTRING(reader);
+				result.Add(key, value);
+			}
+
+			return result;
 		}
 
 		protected RendererSettingChunk ReaddRObjectChunk(BinaryReader chunkReader)

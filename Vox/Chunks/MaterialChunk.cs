@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -7,16 +8,17 @@ namespace FileToVoxCore.Vox.Chunks
     public class MaterialChunk : IEquatable<MaterialChunk>
     {
         public int Id;
-        public KeyValue[] Properties;
+        public Dictionary<string, string> Properties;
 
         public MaterialType Type
         {
             get
             {
                 MaterialType result = MaterialType._diffuse;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_type");
-                if (item.Key != null)
-                    Enum.TryParse(item.Value, out result);
+				if (Properties.TryGetValue("_type", out string value))
+				{
+					Enum.TryParse(value, out result);
+				}
                 return result;
             }
         }
@@ -26,23 +28,26 @@ namespace FileToVoxCore.Vox.Chunks
             get
             {
                 float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_rough");
-                if (item.Key != null)
-	                float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                if (Properties.TryGetValue("_rough", out string value))
+                {
+	                float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+				}
 
 				return result;
             }
         }
-
        
         public float Flux
         {
             get
             {
                 float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_flux");
-                if (item.Key != null)
-					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+
+                if (Properties.TryGetValue("_flux", out string value))
+                {
+	                float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                }
+
 				return result;
             }
         }
@@ -52,21 +57,39 @@ namespace FileToVoxCore.Vox.Chunks
             get
             {
                 float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_ior");
-                if (item.Key != null)
-	                float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+
+                if (Properties.TryGetValue("_ior", out string value))
+                {
+	                float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                }
+
 				return result;
             }
         }
 
-        public float Att
+        public float Plastic
+        {
+	        get
+	        {
+		        float result = 1f;
+		        if (Properties.TryGetValue("_plastic", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
+			
+		        return result;
+	        }
+        }
+
+		public float Att
         {
             get
             {
                 float result = 1f;
-                KeyValue item = Properties.FirstOrDefault(i => i.Key == "_att");
-                if (item.Key != null)
-					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                if (Properties.TryGetValue("_att", out string value))
+                {
+	                float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                }
 				return result;
             }
         }
@@ -76,9 +99,10 @@ namespace FileToVoxCore.Vox.Chunks
 	        get
 	        {
 		        float result = 1f;
-		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_alpha");
-		        if (item.Key != null)
-			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        if (Properties.TryGetValue("_alpha", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
 				return result;
 	        }
         }
@@ -88,9 +112,10 @@ namespace FileToVoxCore.Vox.Chunks
 	        get
 	        {
 		        float result = 1f;
-		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_metal");
-		        if (item.Key != null)
-					float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        if (Properties.TryGetValue("_metal", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
 				return result;
 	        }
 		}
@@ -100,9 +125,11 @@ namespace FileToVoxCore.Vox.Chunks
 	        get
 	        {
 		        float result = 1f;
-		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_sp");
-		        if (item.Key != null)
-			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        if (Properties.TryGetValue("_sp", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
+				
 				return result;
 	        }
 		}
@@ -112,10 +139,38 @@ namespace FileToVoxCore.Vox.Chunks
 	        get
 	        {
 		        float result = 1f;
-		        KeyValue item = Properties.FirstOrDefault(i => i.Key == "_emit");
-		        if (item.Key != null)
-			        float.TryParse(item.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        if (Properties.TryGetValue("_emit", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
+			
 				return result;
+	        }
+        }
+
+        public float Glow
+        {
+	        get
+	        {
+		        float result = 1f;
+		        if (Properties.TryGetValue("_glow", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
+		        return result;
+	        }
+        }
+
+        public float Unit
+        {
+	        get
+	        {
+		        float result = 1f;
+		        if (Properties.TryGetValue("_unit", out string value))
+		        {
+			        float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+		        }
+		        return result;
 	        }
         }
 
@@ -144,7 +199,7 @@ namespace FileToVoxCore.Vox.Chunks
 
         public override int GetHashCode()
         {
-	        return (Properties != null ? Properties.GetHashCode() : 0);
+	        return Properties != null ? Properties.GetHashCode() : 0;
         }
     }
 }
