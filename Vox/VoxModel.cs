@@ -25,6 +25,23 @@ namespace FileToVoxCore.Vox
         _diffuse, _metal, _glass, _emit, _media, _blend, _plastic
     }
 
+    public enum RenderSettingType
+    {
+	    _bounce,
+	    _env,
+	    _inf,
+	    _uni,
+	    _atm,
+	    _ibl,
+	    _lens,
+	    _bloom,
+	    _ground,
+	    _bg,
+	    _edge,
+	    _grid,
+	    _setting
+	}
+
     public class DICT
     { // DICT
         public Dictionary<string, string> items;
