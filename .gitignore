@@ -3,3 +3,4 @@ obj/
 bin/
 .vs/
 Properties/PublishProfiles/FileToVoxCorePortable.pubxml.user
+FileToVoxCore.csproj.user
