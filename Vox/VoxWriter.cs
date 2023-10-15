@@ -173,9 +173,9 @@ namespace FileToVoxCore.Vox
 			writer.Write(12); //Chunk Size (constant)
 			writer.Write(0); //Child Chunk Size (constant)
 
-			writer.Write(Schematic.CHUNK_SIZE); //Width
-			writer.Write(Schematic.CHUNK_SIZE); //Height
-			writer.Write(Schematic.CHUNK_SIZE); //Depth
+			writer.Write(Math.Min(Schematic.CHUNK_SIZE, mSchematic.Width)); //Width
+			writer.Write(Math.Min(Schematic.CHUNK_SIZE, mSchematic.Height)); //Height
+			writer.Write(Math.Min(Schematic.CHUNK_SIZE, mSchematic.Length)); //Depth
 		}
 
 		/// <summary>
